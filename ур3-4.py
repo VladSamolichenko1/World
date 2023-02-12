@@ -33,7 +33,7 @@
 import random
 
 class Human:
-    def __init__(self, name="Human", job=None, home=None, car=None):
+    def __init__(self, name="Human", job=None, home=None, car=None, hobby=None):
         self.name = name
         self.gladness = 50
         self.money = 100
@@ -41,7 +41,11 @@ class Human:
         self.job = job
         self.home = home
         self.car = car
+        self.hobby = hobby
 
+
+    def get_hobby(self):
+        self.hobby = Hobby(hobby_list)
 
     def het_home(self):
         self.home = House()
@@ -102,6 +106,17 @@ class Human:
             self.gladness += 10
             self.satiety += 2
 
+    def play(self):
+        if self.hobby.hobby == "Football":
+            self.gladness += self.hobby.hobby_gladness
+            self.money -= self.hobby.hobby_money
+            self.satiety -= self.hobby.hobby_satiety
+        if self.hobby.hobby == "Play computer games":
+            self.gladness += self.hobby.hobby_gladness
+            self.money -= self.hobby.hobby_money
+        if self.hobby.hobby == "Reading books":
+            self.gladness += self.hobby.hobby_gladness
+            self.money -= self.hobby.hobby_money
 
     def chill(self):
         self.gladness += 10
@@ -131,6 +146,12 @@ class Human:
         print(f"{car_indexes:-^50}", "\n")
         print(f"Fuel - {self.car.fuel}")
         print(f"Strength - {self.car.strength}")
+        hobby_indexes = "Hobby indexes"
+        print(f"{hobby_indexes:-^50}", "\n")
+        print(f"Gladness - {self.hobby.hobby_gladness}")
+        print(f"Money - {self.hobby.hobby_money}")
+        print(f"Satiety - {self.hobby.hobby_satiety}")
+
 
 
     def is_alive(self):
@@ -156,8 +177,11 @@ class Human:
         if self.job is None:
             self.get_job()
             print(f"I don't have a job, I'm going to get a job{self.job.job} with salaty{self.job.salary}")
+        if self.hobby is None:
+            print("I found hobby")
+            self.get_hobby()
         self.days_indexes(day)
-        dice = random.randint(1,4)
+        dice = random.randint(1,5)
         if self.satiety < 20:
             print("I will go to eat")
             self.eat()
@@ -174,18 +198,28 @@ class Human:
         elif self .car.strength < 15:
             print("I need to repait my car")
             self.to_repair()
-            if dice == 1:
-                print("let's chill")
-                self.chill()
-            elif dice == 2:
-                print("Start working")
-                self.work()
-            elif dice == 3:
-                print("Cleaning time")
-            elif dice == 4:
-                print("Time for treats")
-                self.shopping("delicacies")
+        if dice == 1:
+            print("let's chill")
+            self.chill()
+        elif dice == 2:
+            print("Start working")
+            self.work()
+        elif dice == 3:
+            print("Cleaning time")
+        elif dice == 4:
+            print("Time for treats")
+            self.shopping("delicacies")
+        elif dice == 5:
+            print("I found my hobby")
+            self.hobby()
 
+
+class Hobby:
+    def __init__(self, hobby_list):
+        self.hobby = random.choice(list(hobby_list))
+        self.hobby_gladness = hobby_list[self.hobby]["hobby_gladness"]
+        self.hobby_money = hobby_list[self.hobby]["hobby_money"]
+        self.hobby_satiety = hobby_list[self.hobby]["hobby_satiety"]
 
 class Auto:
     def __init__(self, brand_list):
@@ -216,6 +250,8 @@ class Job:
         self.gladness_less = job_list[self.job]["gladness_less"]
 
 
+
+
 job_list = {"Java Developer": {"salary": 50, "gladness_less": 10},
             "Python Developer": {"salary": 70, "gladness_less": 3},
             "C++ Developer": {"salary": 45, "gladness_less": 25},
@@ -226,6 +262,11 @@ brands_of_cars = {
     "Lada": {"fuel": 50, "strength": 40, "consumption": 10},
     "Volvo": {"fuel": 70, "strength": 150, "consumption": 8},
     "Ferrari": {"fuel": 80, "strength": 120, "consumption": 14}}
+
+hobby_list = {
+    "Football": {"hobby_gladness": 30, "hobby_money": 30, "hobby_satiety": 8},
+    "Play computer games": {"hobby_gladness": 30, "hobby_money": 10, "hobby_satiety": 5},
+    "Reading books": {"hobby_gladness": 10, "hobby_money": 5, "hobby_satiety": 2}}
 
 
 vlad = Human("Vlad")
